@@ -753,7 +753,7 @@ namespace ConfigParser
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public DataBlockUnit FindDataBlockByName(string name)
+        public DataBlockUnit FindDataBlock(string name)
         {
             DataBlockUnit res = null;
             foreach (DataBlockUnit item in ListDataBlockUnits)
@@ -773,7 +773,7 @@ namespace ConfigParser
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
-        public DataBlockUnit FindDataBlockByUid(int uid)
+        public DataBlockUnit FindDataBlock(int uid)
         {
             DataBlockUnit res = null;
             foreach (DataBlockUnit item in ListDataBlockUnits)
@@ -1049,7 +1049,7 @@ namespace ConfigParser
                     res = t;
                     break;
                 case UnitsTypes.DataBlock:
-                    DataBlockUnit d = FindDataBlockByUid(uid);
+                    DataBlockUnit d = FindDataBlock(uid);
                     res = d;
                     break;
             }
@@ -1091,6 +1091,57 @@ namespace ConfigParser
             return result;
         }
 
+        /// <summary>
+        /// Найти метку по тексту
+        /// </summary>
+        /// <param name="name">Текст метки</param>
+        /// <returns>Метка</returns>
+        public LabelUnit FindLabel(string name)
+        {
+            LabelUnit result = new LabelUnit();
+            foreach(LabelUnit label in ListLabelUnits)
+            {
+                if (label.Text == name)
+                    result = label;
+            }
+
+            return result;
+        }
+        
+        /// <summary>
+        /// Найти сигнал по имени
+        /// </summary>
+        /// <param name="name">Наименование сигнала</param>
+        /// <returns>Сигнал</returns>
+        public SignalUnit FindSignal(string name)
+        {
+            SignalUnit result = new SignalUnit();
+            foreach(SignalUnit signal in ListSignalUnits)
+            {
+                if (signal.Name == name)
+                    result = signal;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Найти сигнал по идентификатору
+        /// </summary>
+        /// <param name="uid">идентификатору сигнала</param>
+        /// <returns>Сигнал</returns>
+        public SignalUnit FindSignal(int uid)
+        {
+            SignalUnit result = new SignalUnit();
+            foreach(SignalUnit signal in ListSignalUnits)
+            {
+                if (signal.Uid == uid)
+                    result = signal;
+            }
+
+            return result;
+        }
+        
         /// <summary>
         /// Получить количество всех найденных элементов конфигурации
         /// </summary>
