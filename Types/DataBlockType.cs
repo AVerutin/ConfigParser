@@ -6,6 +6,7 @@
         TCP_CLIENT,
         TCP_SERVER,
         OPC,
-        UDP
+        UDP,
+        VIRTUAL
     }
 }

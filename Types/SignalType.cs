@@ -2,7 +2,8 @@
 {
     public enum SignalType
     {
-        BOOL = 0,
+        NONE = 0,
+        BOOL,
         BYTE,
         INT,
         WORD,

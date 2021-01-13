@@ -26,7 +26,7 @@ namespace ConfigParser.ConfigurationUnits
             Byte = 14;
             Bit = 0;
             VirtualValue = default;
-            CompoundSignal = CompoundSignalType.REAL_SIGNAL;
+            CompoundSignal = CompoundSignalType.SIMPLE_SIGNAL;
             UserWrite = true;
             MinAnalogLevel = default;
         }
@@ -116,6 +116,9 @@ namespace ConfigParser.ConfigurationUnits
                 case "DWORDOM":
                     res = SignalType.DWORDOM;
                     break;
+                default:
+                    res = SignalType.NONE;
+                    break;
             }
 
             return res;
@@ -123,17 +126,17 @@ namespace ConfigParser.ConfigurationUnits
 
         private CompoundSignalType getCompoundSignalsTypes(string type)
         {
-            CompoundSignalType res = CompoundSignalType.REAL_SIGNAL;
+            CompoundSignalType res = CompoundSignalType.SIMPLE_SIGNAL;
             switch (type)
             {
                 case "REAL_SIGNAL":
-                    res = CompoundSignalType.REAL_SIGNAL;
+                    res = CompoundSignalType.SIMPLE_SIGNAL;
                     break;
                 case "VIRTUAL_SIGNAL":
                     res = CompoundSignalType.VIRTUAL_SIGNAL;
                     break;
                 default:
-                    res = CompoundSignalType.REAL_SIGNAL;
+                    res = CompoundSignalType.SIMPLE_SIGNAL;
                     break;
             }
 
@@ -142,19 +145,36 @@ namespace ConfigParser.ConfigurationUnits
 
         public override string ToString()
         {
+            //TODO: Добавить различные параметры для различных типов подключения
             string result = "Сигнал\n(\n";
-            
             result += $"\tИдентификатор={Uid}\n";
             result += $"\tИмя={Name}\n";
-            result += $"\tИмяСервер={ServerName}\n";
-            result += $"\tТип={Type.ToString()}\n";
-            result += $"\tИдентификаторБлокаДанных={DataBlockUid}\n";
-            result += $"\tБайт={Byte}\n";
-            result += $"\tБит={Bit}\n";
-            result += $"\tЗначениеВиртуальногоСигнала={VirtualValue.ToString("F2").Replace(",", ".")}\n";
-            result += $"\tСоставнойСигнал={CompoundSignal.ToString()}\n";
-            result += $"\tЗаписьКлиентами={(UserWrite ? 1 : 0)}\n";
-            result += $"\tМинимальныйУровеньАналоговогоСигнала={MinAnalogLevel}\n";
+
+            
+            if (CompoundSignal == CompoundSignalType.SIMPLE_SIGNAL)
+            {
+                // Для реального сигнала
+                result += $"\tТип={Type.ToString()}\n";
+                result += $"\tИдентификаторБлокаДанных={DataBlockUid}\n";
+                result += $"\tБайт={Byte}\n";
+            }
+            else
+            {
+                // Для виртуального сигнала
+                result += $"\tЗначениеВиртуальногоСигнала={VirtualValue.ToString("F2").Replace(",", ".")}\n";
+                result += $"\tСоставнойСигнал={CompoundSignal.ToString()}\n";
+                result += $"\tЗаписьКлиентами={(UserWrite ? 1 : 0)}\n";
+            }
+
+            // result += $"\tИмяСервер={ServerName}\n";
+            // result += $"\tТип={Type.ToString()}\n";
+            // result += $"\tИдентификаторБлокаДанных={DataBlockUid}\n";
+            // result += $"\tБайт={Byte}\n";
+            // result += $"\tБит={Bit}\n";
+            // result += $"\tЗначениеВиртуальногоСигнала={VirtualValue.ToString("F2").Replace(",", ".")}\n";
+            // result += $"\tСоставнойСигнал={CompoundSignal.ToString()}\n";
+            // result += $"\tЗаписьКлиентами={(UserWrite ? 1 : 0)}\n";
+            // result += $"\tМинимальныйУровеньАналоговогоСигнала={MinAnalogLevel}\n";
 
             result += ")\n";
             return result;

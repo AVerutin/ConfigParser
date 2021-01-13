@@ -1141,6 +1141,57 @@ namespace ConfigParser
 
             return result;
         }
+
+        /// <summary>
+        /// Получить список сигналов для соответствующего блока данных 
+        /// </summary>
+        /// <param name="dataBlockUid">Идентификатор блока данных</param>
+        /// <returns>Список сигналов</returns>
+        public List<SignalUnit> GetSignals(int dataBlockUid)
+        {
+            List<SignalUnit> result = new List<SignalUnit>();
+            foreach (SignalUnit signal in ListSignalUnits)
+            {
+                if(signal.DataBlockUid == dataBlockUid)
+                    result.Add(signal);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Получить список виртуальных сигналов, не привязанных к блокам данных
+        /// </summary>
+        /// <returns></returns>
+        public List<SignalUnit> GetVirtualSignals()
+        {
+            List<SignalUnit> result = new List<SignalUnit>();
+            foreach (SignalUnit signal in ListSignalUnits)
+            {
+                if(signal.CompoundSignal == CompoundSignalType.VIRTUAL_SIGNAL)
+                    result.Add(signal);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Удалить сигнал по его идентификатору
+        /// </summary>
+        /// <param name="uid">Идентификатор сигнала</param>
+        /// <returns>Результат операции удаления</returns>
+        public bool DeleteSignal(int uid)
+        {
+            bool result = false;
+            for (int i=0; i<ListSignalUnits.GetItemsCount(); i++)
+            {
+                if (ListSignalUnits[i].Uid == uid)
+                    result = ListSignalUnits.RemoveItem(i);
+            }
+
+            return result;
+        }
+
         
         /// <summary>
         /// Получить количество всех найденных элементов конфигурации

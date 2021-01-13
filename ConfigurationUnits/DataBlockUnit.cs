@@ -9,10 +9,11 @@ namespace ConfigParser.ConfigurationUnits
         public DataBlockType Type { get; set; } // ТипСвязи
         public int DataBlockSize { get; set; } // РазмерБлокаДанных
         public bool Reversal { get; set; } // ПризнакПерестановкиБайт
-        public string ServerName { get; set; }
-        public int Port { get; set; } // Порт
-        public int SenderPort { get; set; } // ПортОтправителя
-        public string SenderHost { get; set; } // IPАдресОтправителя
+        public string ServerName { get; set; } //ИмяСервера (для типа связи TCP_SERVER)
+        public int Port { get; set; } // Порт (для типа связи TCP_SERVER)
+        public int SenderPort { get; set; } // ПортОтправителя (для типа связи OPC, UDP, TCP_CLIENT)
+        public string SenderHost { get; set; } // IPАдресОтправителя (для типа связи OPC, UDP, TCP_CLIENT)
+        public string ServerPath { get; set; } // ПутьДоступа
         public bool HasHead { get; set; } // Заголовок
 
         public DataBlockUnit()
@@ -27,6 +28,7 @@ namespace ConfigParser.ConfigurationUnits
             SenderHost = default;
             SenderPort = default;
             HasHead = true;
+            ServerPath = default;
         }
 
         public DataBlockUnit(ConfigurationUnit confConfigurationUnit)
@@ -70,6 +72,9 @@ namespace ConfigParser.ConfigurationUnits
                             break;
                         case "СЕРВЕР":
                             ServerName = val;
+                            break;
+                        case "ПУТЬДОСТУПА":
+                            ServerPath = val;
                             break;
                     }
                 }
