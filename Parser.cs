@@ -803,6 +803,52 @@ namespace ConfigParser
                 }
             }
         }
+
+        /// <summary>
+        /// Удалить блок данных по его идентификатору
+        /// </summary>
+        /// <param name="uid">Идентификатор блока данных</param>
+        /// <param name="cascade">Удаление также всех сигналов, привязанных к блоку данных</param>
+        /// <returns>Результат выполнения операции удаления (-1 - не найден блок данных, 0 - успех, иначе - количество сигналов, привязанных к блоку данных)</returns>
+        public int DeleteDataBlock(int uid, bool cascade=false)
+        {
+            int result = -1;
+
+            DataBlockUnit db = FindDataBlock(uid);
+            if (db == null) return result; // Если блок данных не найдем, возвращаем статус -1 
+            
+            // Найдем сигналы, привязанные к блоку данных
+            result = 0;
+            for (int i = 0; i < ListSignalUnits.GetItemsCount(); i++)
+            {
+                if (ListSignalUnits[i].DataBlockUid == uid)
+                {
+                    if (cascade)
+                    {
+                        // Удаляем все сигналы, привязанные к этому блоку данных
+                        ListSignalUnits.RemoveItem(i);
+                    }
+                    else
+                    {
+                        result++;
+                    }
+                }
+            }
+
+            if (result == 0)
+            {
+                for (int i = 0; i < ListDataBlockUnits.GetItemsCount(); i++)
+                {
+                    if (ListDataBlockUnits[i].Uid == uid)
+                    {
+                        ListDataBlockUnits.RemoveItem(i);
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
         
         #endregion
 
